@@ -82,6 +82,48 @@
     color: var(--muted);
     margin-top: 8px;
   }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 16px 0 6px;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fffdfc;
+    color: var(--text);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+  .hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+  h2 {
+    font-size: 1.1rem;
+    margin: 0 0 4px;
+    color: var(--accent-dark);
+  }
+  #oneResult {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    min-height: 1.2em;
+  }
+  #oneResult.ok { color: #3a9d5d; }
+  #oneResult.err { color: #c0392b; }
   #log {
     margin-top: 20px;
     background: #201a19;
@@ -107,6 +149,27 @@
       <span id="statusText">Checking connection…</span>
     </div>
 
+    <h2>Send a message</h2>
+    <label for="oneName">Name</label>
+    <input type="text" id="oneName" placeholder="Reve Ghorayeb" />
+
+    <label for="onePhone">Phone number</label>
+    <input type="text" id="onePhone" placeholder="+9613xxxxxxx" />
+    <div class="hint">Include the country code.</div>
+
+    <label for="oneMessage">Message</label>
+    <textarea id="oneMessage" placeholder="Dear {{Name}}, ..."></textarea>
+    <div class="hint">Use <code>{{Name}}</code> anywhere you want the name inserted.</div>
+
+    <div style="margin-top:20px;">
+      <button id="oneSendBtn" disabled>Send Message</button>
+    </div>
+    <div id="oneResult"></div>
+
+    <hr />
+
+    <h2>Send to full guest list</h2>
+    <p class="sub" style="margin-bottom:12px;">Sends to every contact in contacts.csv.</p>
     <div class="preview" id="preview">Loading preview…</div>
     <div class="count" id="count"></div>
 

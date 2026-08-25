@@ -57,6 +57,14 @@ app.get('/status', (req, res) => {
   res.json(getStatus());
 });
 
+app.get('/template', (req, res) => {
+  try {
+    res.json({ template: loadTemplate() });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 app.get('/preview', (req, res) => {
   try {
     const template = loadTemplate();
@@ -67,6 +75,36 @@ app.get('/preview', (req, res) => {
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+app.use(express.json());
+
+app.post('/send-one', async (req, res) => {
+  const status = getStatus();
+  if (!status.ready) {
+    res.status(409).json({ error: 'WhatsApp is not connected yet. Scan the QR code in the terminal first.' });
+    return;
+  }
+
+  const { name, phone, message } = req.body || {};
+
+  if (!phone || !String(phone).trim()) {
+    res.status(400).json({ error: 'Phone number is required.' });
+    return;
+  }
+  if (!message || !String(message).trim()) {
+    res.status(400).json({ error: 'Message is required.' });
+    return;
+  }
+
+  const rendered = renderMessage(message, name || '');
+
+  try {
+    await sendMessage(phone, rendered);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
