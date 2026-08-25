@@ -1,0 +1,14 @@
+{
+  "name": "whatsapp-wedding-invites",
+  "version": "1.0.0",
+  "description": "Send personalized WhatsApp wedding invitations from your own number via a local button.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.26.0"
+  }
+}
