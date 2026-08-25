@@ -1,12 +1,31 @@
 # WhatsApp Wedding Invitations
 
-Sends a personalized wedding invitation to a list of guests over WhatsApp,
-from your own phone number, triggered by a button on a local web page.
+Sends a personalized wedding invitation to guests over WhatsApp, from your
+own phone number. Two ways to use it:
 
-It uses [`whatsapp-web.js`](https://wwebjs.dev/), which drives a real
-WhatsApp Web session (the same as scanning a QR code in your browser). No
-official WhatsApp Business API or third-party number needed — messages are
-sent as you, from your own linked device.
+- **`docs/` — static, GitHub Pages version.** Fill in Name / Phone / Message,
+  click **Open in WhatsApp**, and it opens WhatsApp Web (or the app on
+  mobile) with the chat and message pre-filled. You tap **Send** yourself.
+  No install, no server — this is what runs at your GitHub Pages URL.
+- **Root — local, automatic version.** A Node.js app using
+  [`whatsapp-web.js`](https://wwebjs.dev/) that drives a real, logged-in
+  WhatsApp Web session and sends messages for you (single message, or the
+  full `contacts.csv` list) with one click — no manual tap needed. Must run
+  on your own machine (or a server you control); GitHub Pages can't run it
+  since it needs a persistent Node process holding your session.
+
+## GitHub Pages version (docs/)
+
+1. In the repo on GitHub: **Settings → Pages → Build and deployment → Source:
+   Deploy from a branch**, branch `main`, folder `/docs`. Save.
+2. GitHub gives you a URL like `https://<username>.github.io/<repo>/`. Open
+   it, fill in Name / Phone / Message, click **Open in WhatsApp**, then tap
+   Send inside WhatsApp.
+3. Nothing here can send automatically — a static page hosted on GitHub
+   Pages has no way to hold your logged-in session, so the manual tap is
+   unavoidable with this approach.
+
+## Local automatic version (Node app)
 
 ## 1. Install
 

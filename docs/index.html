@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Wedding Invitations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #fdf6f0;
+    --card: #ffffff;
+    --accent: #b9716f;
+    --accent-dark: #8f4d4b;
+    --text: #3a2e2c;
+    --muted: #8a7a76;
+    --border: #ecdedb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  h1 {
+    font-size: 1.5rem;
+    margin: 0 0 4px;
+    color: var(--accent-dark);
+  }
+  p.sub {
+    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 0.95rem;
+  }
+  .from {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #f4ece9;
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 16px 0 6px;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fffdfc;
+    color: var(--text);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 160px;
+  }
+  .hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  button {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    margin-top: 20px;
+  }
+  button:hover { background: var(--accent-dark); }
+  #err {
+    color: #c0392b;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    min-height: 1.2em;
+  }
+  .note {
+    margin-top: 24px;
+    padding: 14px;
+    background: #faf3f0;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Wedding Invitations</h1>
+    <p class="sub">Fill in a guest, preview the message, then open it in WhatsApp to send.</p>
+    <div class="from">Sends from +961 71 737 441</div>
+
+    <label for="name">Name</label>
+    <input type="text" id="name" placeholder="Reve Ghorayeb" />
+
+    <label for="phone">Phone number</label>
+    <input type="text" id="phone" placeholder="+9613xxxxxxx" />
+    <div class="hint">Include the country code.</div>
+
+    <label for="message">Message</label>
+    <textarea id="message">Dear {{Name}},
+
+With hearts full of joy, we invite you to celebrate our wedding!
+
+We would be honored to have you with us on our special day.
+
+Please let us know if you can make it.
+
+With love,
+Rony &amp; Reve</textarea>
+    <div class="hint">Use <code>{{Name}}</code> anywhere you want the name inserted.</div>
+
+    <div>
+      <button id="sendBtn">Open in WhatsApp</button>
+    </div>
+    <div id="err"></div>
+
+    <div class="note">
+      This opens WhatsApp Web (or the app on mobile) with the chat and message
+      already filled in from your linked number, +961 71 737 441. You still tap
+      <strong>Send</strong> inside WhatsApp yourself &mdash; a page like this,
+      hosted on GitHub Pages, can't send messages on its own.
+    </div>
+  </div>
+
+  <script>
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    const messageInput = document.getElementById('message');
+    const sendBtn = document.getElementById('sendBtn');
+    const err = document.getElementById('err');
+
+    sendBtn.addEventListener('click', () => {
+      err.textContent = '';
+
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const message = messageInput.value.trim();
+
+      const digits = phone.replace(/[^0-9]/g, '');
+
+      if (!digits) {
+        err.textContent = 'Enter a phone number, including the country code.';
+        return;
+      }
+      if (!message) {
+        err.textContent = 'Enter a message.';
+        return;
+      }
+
+      const rendered = message.replace(/\{\{\s*Name\s*\}\}/g, name || '');
+      const url = `https://wa.me/${digits}?text=${encodeURIComponent(rendered)}`;
+      window.open(url, '_blank', 'noopener');
+    });
+  </script>
+</body>
+</html>
